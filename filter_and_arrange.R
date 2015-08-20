@@ -50,3 +50,55 @@ select(c2, Date, DepTime, ArrTime, TailNum)
 a1 <- filter(hflights, DayOfWeek %in% c(6,7), Distance > 1000, TaxiIn + TaxiOut < 15)
 str(a1)
 #Answer: 155 flights. Didn't find that answer yet but figure it out.
+
+
+#ARRANGE verb.
+
+#Arrange reorders the rows
+
+arrange(hflights, DepDelay) #re-orders from smallest to largest Delays
+
+arrange(hflights, DepDelay, ArrDelay)
+
+#arrange(data,  var0, var1, ...) Here, data is again the tbl you're working with and var0, var1, ... are variables according to which you arrange. When var0 does not provide closure on the order, var1 and possibly additional variables will serve as tie breakers to decide the arrangement.
+#arrange() can be used to rearrange rows according to any type of data. If you pass arrange() a character variable, for example, R will rearrange the rows in alphabetical order according to values of the variable. 
+#If you pass a factor variable, R will rearrange the rows according to the order of the levels in your factor (running levels() on the variable reveals this order).
+hflights$DepDelay
+
+filter(hflights, Cancelled == 1, is.na(DepDelay))
+dtc <- filter(hflights, Cancelled == 1, !is.na(DepDelay))
+
+# Arrange dtc by departure delays
+hflights$DepDelay
+a1 <- arrange(dtc, DepDelay)
+a1
+
+# Arrange dtc so that cancellation reasons are grouped
+hflights$CancellationCode
+a2 <- arrange(dtc, CancellationCode)
+a2
+
+# Arrange according to carrier and departure delays
+a3 <- arrange(hflights, UniqueCarrier, DepDelay)
+a3
+
+#By default, arrange() arranges the rows from smallest to largest. Rows with the smallest value of the variable will appear at the top of the data set. You can reverse this behavior with the desc() function. arrange() will reorder the rows from largest to smallest values of a variable if you wrap the variable name in desc() before passing it to arrange().
+
+# Arrange according to carrier and decreasing departure delays
+a1 <- arrange(hflights, UniqueCarrier, desc(DepDelay))
+a1
+# Arrange flights by total delay (normal order).
+a2 <- arrange(hflights, DepDelay + ArrDelay)
+a2
+
+# Keep flights leaving to DFW before 8am and arrange according to decreasing AirTime 
+#hflights$Dest
+#hflights$DepTime
+a3 <- arrange(filter(hflights, Dest=="DFW" & DepTime < 800), desc(AirTime))
+a3
+
+#What steps do you take to print a list containing only TailNum of flights that departed too late, sorted by total taxiing time?
+#ANSWER: First filter(), then mutate(), arrange() and finally select().
+#The conceptial question above is quite confusing ****************************
+
+
