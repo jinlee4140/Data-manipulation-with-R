@@ -69,3 +69,18 @@ s2 <- summarise(aa, n_flights = n(),
 s2
 
 #Think of n() as number of observations.
+
+
+
+#CHAINING YOUR FUNCTIONS: THE PIPE OPERATOR
+
+#These two following statements are analagous to each other:
+#mean(c(1, 2, 3, NA), na.rm = TRUE)
+#c(1, 2, 3, NA) %>% mean(na.rm = TRUE)
+
+p <- hflights %>%
+  mutate(diff = TaxiOut - TaxiIn) %>%
+  filter(!is.na(diff)) %>%
+  summarise(avg = mean(diff))
+
+p
