@@ -83,4 +83,6 @@ p <- hflights %>%
   filter(!is.na(diff)) %>%
   summarise(avg = mean(diff))
 
+# Part 1, concerning the selection and creation of columns
+
 p
