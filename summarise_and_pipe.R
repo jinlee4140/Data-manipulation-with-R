@@ -15,6 +15,7 @@ s2 <- summarise(filter(hflights, Diverted == 1), max_div = max(Distance))
 s2
 
 
+
 #min(x) - minimum value of vector x.
 #max(x) - maximum value of vector x.
 #mean(x) - mean value of vector x.
@@ -84,5 +85,14 @@ p <- hflights %>%
   summarise(avg = mean(diff))
 
 # Part 1, concerning the selection and creation of columns
+d <- hflights %>%
+  select(Dest, UniqueCarrier, Distance, ActualElapsedTime) %>%  
+  mutate(RealTime = ActualElapsedTime + 100, mph = Distance / RealTime * 60)
 
-p
+# Part 2, concerning flights that had an actual average speed of < 70 mph.
+d %>%
+  filter(!is.na(mph), mph < 70) %>%
+  summarise(n_less = n(),
+            n_dest = n_distinct(Dest),
+            min_dist = min(Distance),
+            max_dist = max(Distance))
